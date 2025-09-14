@@ -7,6 +7,8 @@ using Payments.Application.Commands.v1.CreateProfile;
 using Payments.Application.Commands.v1.CreatePayment;
 using Payments.Application.Commands.v1.UpdatePayment;
 using Payments.Application.Queries.v1.GetPaymentById;
+using Payments.Application.Commands.v1.DeletePayment;
+using Payments.Application.Commands.v1.DeleteProfile;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,8 @@ builder.Services.AddScoped<IQueryHandler<GetPaymentByIdQuery, GetPaymentByIdQuer
 builder.Services.AddScoped<ICommandHandler<CreateProfileCommand>, CreateProfileCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<CreatePaymentCommand>, CreatePaymentCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<UpdatePaymentCommand>, UpdatePaymentCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<DeletePaymentCommand>, DeletePaymentCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<DeleteProfileCommand>, DeleteProfileCommandHandler>();
 builder.Services.AddScoped<CqrsDispatcher>();
 
 var app = builder.Build();

@@ -17,7 +17,7 @@ public class CreatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
             Content = command.Content,
             Description = command.Description,
             Amount = command.Amount,
-            PaymentDate = command.PaymentDate,
+            PaymentDate = command.PaymentDate.ToUniversalTime(),
             Completed = command.Completed,
             Profile = profile,
             CreatedAt = DateTime.UtcNow

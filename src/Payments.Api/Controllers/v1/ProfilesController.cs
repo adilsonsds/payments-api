@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Payments.Application;
 using Payments.Application.Commands.v1.CreateProfile;
+using Payments.Application.Commands.v1.DeleteProfile;
 using Payments.Application.Queries.v1.GetProfiles;
 
 namespace Payments.Api.Controllers.v1;
@@ -23,6 +24,14 @@ public class ProfilesController(CqrsDispatcher dispatcher) : ControllerBase
     {
         await _dispatcher.SendAsync(command, cancellationToken);
         return CreatedAtAction(nameof(GetProfilesAsync), null);
+    }
+
+    [HttpDelete("{profileId}")]
+    public async Task<IActionResult> DeleteProfileAsync([FromRoute] int profileId, CancellationToken cancellationToken)
+    {
+        var command = new DeleteProfileCommand(profileId);
+        await _dispatcher.SendAsync(command, cancellationToken);
+        return NoContent();
     }
 }
 
