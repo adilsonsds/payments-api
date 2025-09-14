@@ -1,6 +1,55 @@
-@Payments.Api_HostAddress = http://localhost:5054
+@host = http://localhost:5054
+@profileId = 1
+@paymentId = 1
 
-GET {{Payments.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Profiles
+GET {{host}}/api/v1/Profiles
 
 ###
+POST {{host}}/api/v1/Profiles
+Content-Type: application/json
+
+{
+    "name": "My Name"
+}
+
+###
+DELETE {{host}}/api/v1/Profiles/{{profileId}}
+
+### Payments
+GET {{host}}/api/v1/Payments
+X-Profile-Id: {{profileId}}
+
+###
+GET {{host}}/api/v1/Payments/{{paymentId}}
+X-Profile-Id: {{profileId}}
+
+###
+POST {{host}}/api/v1/Payments
+Content-Type: application/json
+X-Profile-Id: {{profileId}}
+
+{
+    "content": "Teste cadastro",
+    "description": "Teste teste teste",
+    "amount": 10.0,
+    "paymentDate": "2025-09-13",
+    "completed": false
+}
+
+###
+PUT {{host}}/api/v1/Payments/{{paymentId}}
+Content-Type: application/json
+X-Profile-Id: {{profileId}}
+
+{
+    "content": "Teste cadastro 2",
+    "description": "Teste teste teste Teste teste teste",
+    "amount": 20.0,
+    "paymentDate": "2025-09-14",
+    "completed": true
+}
+
+###
+DELETE {{host}}/api/v1/Payments/{{paymentId}}
+X-Profile-Id: {{profileId}}
