@@ -2,11 +2,11 @@ using Payments.Infra;
 
 namespace Payments.Application.Commands.v1.UpdatePayment;
 
-public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommandHandler<UpdatePaymentCommand>
+public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommandHandler<UpdatePaymentCommand, UpdatePaymentCommandResponse>
 {
     private readonly PaymentsDbContext _dbContext = dbContext;
 
-    public async Task HandleAsync(UpdatePaymentCommand command, CancellationToken cancellationToken)
+    public async Task<UpdatePaymentCommandResponse> HandleAsync(UpdatePaymentCommand command, CancellationToken cancellationToken)
     {
         var payment = await _dbContext.Payments.FindAsync([command.PaymentId], cancellationToken)
             ?? throw new KeyNotFoundException($"Payment with ID {command.PaymentId} not found.");
@@ -31,5 +31,15 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
 
         _dbContext.Payments.Update(payment);
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return new UpdatePaymentCommandResponse(
+            payment.Id,
+            payment.Content,
+            payment.Description,
+            payment.Amount,
+            payment.PaymentDate,
+            payment.Completed,
+            payment.CreatedAt
+        );
     }
 }

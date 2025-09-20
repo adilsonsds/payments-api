@@ -10,6 +10,16 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5054:5054"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=paymentsdb;Username=paymentsuser;Password=5Nw5lw@8%d1RaW
+    depends_on:
+      - db
 
 volumes:
   pgdata:

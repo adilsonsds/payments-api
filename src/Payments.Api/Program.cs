@@ -9,6 +9,7 @@ using Payments.Application.Commands.v1.UpdatePayment;
 using Payments.Application.Queries.v1.GetPaymentById;
 using Payments.Application.Commands.v1.DeletePayment;
 using Payments.Application.Commands.v1.DeleteProfile;
+using Payments.Application.Queries.v1.GetProfileById;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,20 +25,15 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IQueryHandler<GetProfilesQuery, GetProfilesQueryResponse>, GetProfilesQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetPaymentsQuery, GetPaymentsQueryResponse>, GetPaymentsQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetPaymentByIdQuery, GetPaymentByIdQueryResponse>, GetPaymentByIdQueryHandler>();
-builder.Services.AddScoped<ICommandHandler<CreateProfileCommand>, CreateProfileCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<CreatePaymentCommand>, CreatePaymentCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<UpdatePaymentCommand>, UpdatePaymentCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<DeletePaymentCommand>, DeletePaymentCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<DeleteProfileCommand>, DeleteProfileCommandHandler>();
+builder.Services.AddScoped<IQueryHandler<GetProfileByIdQuery, GetProfileByIdQueryResponse>, GetProfileByIdQueryHandler>();
+builder.Services.AddScoped<ICommandHandler<CreateProfileCommand, CreateProfileCommandResponse>, CreateProfileCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<CreatePaymentCommand, CreatePaymentCommandResponse>, CreatePaymentCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<UpdatePaymentCommand, UpdatePaymentCommandResponse>, UpdatePaymentCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<DeletePaymentCommand, DeletePaymentCommandResponse>, DeletePaymentCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<DeleteProfileCommand, DeleteProfileCommandResponse>, DeleteProfileCommandHandler>();
 builder.Services.AddScoped<CqrsDispatcher>();
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<PaymentsDbContext>();
-    dbContext.Database.Migrate();
-}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -8,4 +8,4 @@ public record UpdatePaymentCommand(
     decimal? Amount,
     DateTime? PaymentDate,
     bool? Completed
-) : ICommand;
+) : ICommand<UpdatePaymentCommandResponse>;

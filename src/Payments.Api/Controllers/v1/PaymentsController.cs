@@ -37,23 +37,23 @@ public class PaymentsController(CqrsDispatcher dispatcher) : ControllerBase
     public async Task<IActionResult> CreatePaymentAsync([FromHeader(Name = "X-Profile-Id")] int profileId, [FromBody] CreatePaymentCommandRequest request, CancellationToken cancellationToken)
     {
         var command = CreatePaymentCommandMapper.ToCommand(request, profileId);
-        await _dispatcher.SendAsync(command, cancellationToken);
-        return Created();
+        var result = await _dispatcher.SendAsync<CreatePaymentCommand, CreatePaymentCommandResponse>(command, cancellationToken);
+        return Created(nameof(GetPaymentByIdAsync), result);
     }
 
     [HttpPut("{paymentId}")]
     public async Task<IActionResult> UpdatePaymentAsync([FromRoute] int paymentId, [FromHeader(Name = "X-Profile-Id")] int profileId, [FromBody] UpdatePaymentCommandRequest request, CancellationToken cancellationToken)
     {
         var command = UpdatePaymentCommandMapper.ToCommand(request, paymentId, profileId);
-        await _dispatcher.SendAsync(command, cancellationToken);
-        return NoContent();
+        var result = await _dispatcher.SendAsync<UpdatePaymentCommand, UpdatePaymentCommandResponse>(command, cancellationToken);
+        return Ok(result);
     }
 
     [HttpDelete("{paymentId}")]
     public async Task<IActionResult> DeletePaymentAsync([FromRoute] int paymentId, [FromHeader(Name = "X-Profile-Id")] int profileId, CancellationToken cancellationToken)
     {
         var command = new DeletePaymentCommand(paymentId, profileId);
-        await _dispatcher.SendAsync(command, cancellationToken);
-        return NoContent();
+        var result = await _dispatcher.SendAsync<DeletePaymentCommand, DeletePaymentCommandResponse>(command, cancellationToken);
+        return Ok(result);
     }
 }

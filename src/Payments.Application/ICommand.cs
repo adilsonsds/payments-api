@@ -1,3 +1,3 @@
 namespace Payments.Application;
 
-public interface ICommand { }
+public interface ICommand<TResult> { }

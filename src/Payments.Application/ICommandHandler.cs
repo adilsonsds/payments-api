@@ -1,7 +1,7 @@
 namespace Payments.Application;
 
-public interface ICommandHandler<TCommand>
-    where TCommand : ICommand
+public interface ICommandHandler<TCommand, TResult>
+    where TCommand : ICommand<TResult>
 {
-    Task HandleAsync(TCommand command, CancellationToken cancellationToken);
+    Task<TResult> HandleAsync(TCommand command, CancellationToken cancellationToken);
 }

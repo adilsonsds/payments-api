@@ -22,9 +22,10 @@ public class GetPaymentsQueryHandler(PaymentsDbContext dbContext) : IQueryHandle
         }
 
         var payments = await paymentsQuery
+            .AsNoTracking()
+            .OrderByDescending(p => p.CreatedAt)
             .Skip((query.PageNumber - 1) * query.PageSize)
             .Take(query.PageSize)
-            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         var responseItems = payments.Select(p => new GetPaymentsQueryResponseItem(

@@ -4,7 +4,7 @@ public record GetPaymentByIdQueryResponse(
     int Id,
     string Content,
     string? Description,
-    DateTime Date,
+    DateTime PaymentDate,
     decimal Amount,
     bool Completed,
     DateTime CreatedAt

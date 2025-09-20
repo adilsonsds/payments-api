@@ -7,4 +7,14 @@ public record CreatePaymentCommand(
     decimal Amount,
     DateTime PaymentDate,
     bool Completed
-) : ICommand;
+) : ICommand<CreatePaymentCommandResponse>;
+
+public record CreatePaymentCommandResponse(
+    int Id,
+    string Content,
+    string? Description,
+    decimal Amount,
+    DateTime PaymentDate,
+    bool Completed,
+    DateTime CreatedAt
+);

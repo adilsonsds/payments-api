@@ -1,3 +1,3 @@
 namespace Payments.Application.Queries.v1.GetPayments;
 
-public record GetPaymentsQueryResponse(List<GetPaymentsQueryResponseItem> Payments);
+public record GetPaymentsQueryResponse(List<GetPaymentsQueryResponseItem> Items);
