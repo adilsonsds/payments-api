@@ -11,7 +11,7 @@ public class BackupController(CqrsDispatcher dispatcher) : ControllerBase
     private readonly CqrsDispatcher _dispatcher = dispatcher;
     
     [HttpPost]
-    public async Task<IActionResult> CreateBackup([FromBody] CreateBackupCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateBackupAsync([FromBody] CreateBackupCommand command, CancellationToken cancellationToken)
     {
         var response = await _dispatcher.SendAsync<CreateBackupCommand, CreateBackupCommandResponse>(command, cancellationToken);
         return Ok(response);
