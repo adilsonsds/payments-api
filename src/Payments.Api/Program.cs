@@ -10,6 +10,9 @@ using Payments.Application.Queries.v1.GetPaymentById;
 using Payments.Application.Commands.v1.DeletePayment;
 using Payments.Application.Commands.v1.DeleteProfile;
 using Payments.Application.Queries.v1.GetProfileById;
+using Payments.Application.Commands.v1.CreateBackup;
+using Shared.Abstractions;
+using Shared.Integrations.Google;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +34,10 @@ builder.Services.AddScoped<ICommandHandler<CreatePaymentCommand, CreatePaymentCo
 builder.Services.AddScoped<ICommandHandler<UpdatePaymentCommand, UpdatePaymentCommandResponse>, UpdatePaymentCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeletePaymentCommand, DeletePaymentCommandResponse>, DeletePaymentCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeleteProfileCommand, DeleteProfileCommandResponse>, DeleteProfileCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<CreateBackupCommand, CreateBackupCommandResponse>, CreateBackupCommandHandler>();
+
 builder.Services.AddScoped<CqrsDispatcher>();
+builder.Services.AddScoped<IFileStorageBackupService, GoogleDriveService>();
 
 var app = builder.Build();
 
@@ -40,6 +46,8 @@ if (app.Environment.IsDevelopment())
 {
     // app.MapOpenApi();
 }
+
+app.MapGet("/", () => "Payments API is running!");
 
 app.UseHttpsRedirection();
 

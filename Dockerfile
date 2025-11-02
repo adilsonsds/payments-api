@@ -7,6 +7,8 @@ COPY ["src/Payments.Api/Payments.Api.csproj", "Payments.Api/"]
 COPY ["src/Payments.Application/Payments.Application.csproj", "Payments.Application/"]
 COPY ["src/Payments.Domain/Payments.Domain.csproj", "Payments.Domain/"]
 COPY ["src/Payments.Infra/Payments.Infra.csproj", "Payments.Infra/"]
+COPY ["src/Shared.Abstractions/Shared.Abstractions.csproj", "Shared.Abstractions/"]
+COPY ["src/Shared.Integrations.Google/Shared.Integrations.Google.csproj", "Shared.Integrations.Google/"]
 
 # Restore dependencies
 RUN dotnet restore "Payments.sln"
@@ -23,5 +25,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/publish .
 EXPOSE 5054
-ENV ASPNETCORE_URLS=http://+:5054
+ENV HTTP_PORTS=5054
+ENV HTTPS_PORTS=5055
 ENTRYPOINT ["dotnet", "Payments.Api.dll"]

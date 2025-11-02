@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <ProjectReference Include="../Payments.Application/Payments.Application.csproj" />
+    <ProjectReference Include="../Payments.Core.GoogleDrive/Payments.Core.GoogleDrive.csproj" />
     <ProjectReference Include="../Payments.Infra/Payments.Infra.csproj" />
+    <ProjectReference Include="../Shared.Integrations.Google/Shared.Integrations.Google.csproj" />
   </ItemGroup>
 
 </Project>
