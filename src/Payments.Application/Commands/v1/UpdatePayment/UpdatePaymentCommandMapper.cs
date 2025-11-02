@@ -2,10 +2,9 @@ namespace Payments.Application.Commands.v1.UpdatePayment;
 
 public static class UpdatePaymentCommandMapper
 {
-    public static UpdatePaymentCommand ToCommand(this UpdatePaymentCommandRequest request, int paymentId, int profileId) =>
+    public static UpdatePaymentCommand ToCommand(this UpdatePaymentCommandRequest request, int paymentId) =>
         new(
             PaymentId: paymentId,
-            ProfileId: profileId,
             Content: request.Content,
             Description: request.Description,
             Amount: request.Amount,

@@ -11,9 +11,6 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
         var payment = await _dbContext.Payments.FindAsync([command.PaymentId], cancellationToken)
             ?? throw new KeyNotFoundException($"Payment with ID {command.PaymentId} not found.");
 
-        if (payment.Profile.Id != command.ProfileId)
-            throw new UnauthorizedAccessException("You do not have permission to update this payment.");
-
         if (command.Content is not null)
             payment.Content = command.Content;
 

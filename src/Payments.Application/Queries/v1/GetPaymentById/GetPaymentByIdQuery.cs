@@ -1,3 +1,3 @@
 namespace Payments.Application.Queries.v1.GetPaymentById;
 
-public record GetPaymentByIdQuery(int PaymentId, int ProfileId): IQuery<GetPaymentByIdQueryResponse>;
+public record GetPaymentByIdQuery(int PaymentId): IQuery<GetPaymentByIdQueryResponse>;

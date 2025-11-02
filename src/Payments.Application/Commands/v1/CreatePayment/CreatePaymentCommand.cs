@@ -8,13 +8,3 @@ public record CreatePaymentCommand(
     DateTime PaymentDate,
     bool Completed
 ) : ICommand<CreatePaymentCommandResponse>;
-
-public record CreatePaymentCommandResponse(
-    int Id,
-    string Content,
-    string? Description,
-    decimal Amount,
-    DateTime PaymentDate,
-    bool Completed,
-    DateTime CreatedAt
-);

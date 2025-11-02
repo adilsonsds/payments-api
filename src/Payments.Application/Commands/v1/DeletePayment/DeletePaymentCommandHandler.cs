@@ -10,7 +10,7 @@ public class DeletePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
     public async Task<DeletePaymentCommandResponse> HandleAsync(DeletePaymentCommand command, CancellationToken cancellationToken)
     {
         var payment = await _dbContext.Payments
-            .FirstOrDefaultAsync(p => p.Id == command.PaymentId && p.Profile.Id == command.ProfileId, cancellationToken)
+            .FirstOrDefaultAsync(p => p.Id == command.PaymentId, cancellationToken)
             ?? throw new KeyNotFoundException("Payment not found.");
 
         var response = new DeletePaymentCommandResponse(
