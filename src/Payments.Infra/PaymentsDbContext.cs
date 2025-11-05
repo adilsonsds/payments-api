@@ -16,9 +16,13 @@ public class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : Db
             entity.Property(e => e.Content).IsRequired().HasMaxLength(255);
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Amount).IsRequired();
-            entity.Property(e => e.PaymentDate);
+            entity.Property(e => e.PaymentDate).HasConversion(
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             entity.Property(e => e.Completed).IsRequired();
-            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedAt).HasConversion(
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             entity.HasOne(e => e.Profile).WithMany().HasForeignKey("ProfileId").IsRequired();
 
             entity.Navigation(e => e.Profile).AutoInclude();

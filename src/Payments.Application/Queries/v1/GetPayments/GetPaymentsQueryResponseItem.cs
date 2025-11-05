@@ -7,5 +7,7 @@ public record GetPaymentsQueryResponseItem(
     DateTime PaymentDate,
     decimal Amount,
     bool Completed,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    int ProfileId,
+    string ProfileName
 );

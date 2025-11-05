@@ -9,16 +9,15 @@ public class GetPaymentsQueryHandler(PaymentsDbContext dbContext) : IQueryHandle
 
     public async Task<GetPaymentsQueryResponse> HandleAsync(GetPaymentsQuery query, CancellationToken cancellationToken)
     {
-        var paymentsQuery = _dbContext.Payments.AsQueryable().Where(p => p.Profile.Id == query.ProfileId);
+        DateTime fromDate = DateTime.SpecifyKind(new(query.Year, query.Month, 1), DateTimeKind.Utc);
+        DateTime toDate = DateTime.SpecifyKind(new DateTime(query.Year, query.Month, 1).AddMonths(1).AddTicks(-1), DateTimeKind.Utc);
 
-        if (query.FromDate.HasValue)
-        {
-            paymentsQuery = paymentsQuery.Where(p => p.PaymentDate >= query.FromDate.Value);
-        }
+        var paymentsQuery = _dbContext.Payments.AsQueryable()
+            .Where(p => p.PaymentDate >= fromDate && p.PaymentDate <= toDate);
 
-        if (query.ToDate.HasValue)
+        if (query.Profiles != null && query.Profiles.Any())
         {
-            paymentsQuery = paymentsQuery.Where(p => p.PaymentDate <= query.ToDate.Value);
+            paymentsQuery = paymentsQuery.Where(p => query.Profiles.Contains(p.Profile.Id));
         }
 
         var payments = await paymentsQuery
@@ -26,18 +25,19 @@ public class GetPaymentsQueryHandler(PaymentsDbContext dbContext) : IQueryHandle
             .OrderByDescending(p => p.CreatedAt)
             .Skip((query.PageNumber - 1) * query.PageSize)
             .Take(query.PageSize)
+            .Select(p => new GetPaymentsQueryResponseItem(
+                p.Id,
+                p.Content,
+                p.Description,
+                p.PaymentDate,
+                p.Amount,
+                p.Completed,
+                p.CreatedAt,
+                p.Profile.Id,
+                p.Profile.Name
+            ))
             .ToListAsync(cancellationToken);
 
-        var responseItems = payments.Select(p => new GetPaymentsQueryResponseItem(
-            p.Id,
-            p.Content,
-            p.Description,
-            p.PaymentDate,
-            p.Amount,
-            p.Completed,
-            p.CreatedAt
-        )).ToList();
-
-        return new GetPaymentsQueryResponse(responseItems);
+        return new GetPaymentsQueryResponse(payments);
     }
 }

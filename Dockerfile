@@ -26,5 +26,4 @@ WORKDIR /app
 COPY --from=build /app/publish .
 EXPOSE 5054
 ENV HTTP_PORTS=5054
-ENV HTTPS_PORTS=5055
 ENTRYPOINT ["dotnet", "Payments.Api.dll"]

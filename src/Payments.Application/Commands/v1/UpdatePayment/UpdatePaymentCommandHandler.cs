@@ -21,7 +21,7 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
             payment.Amount = command.Amount.Value;
 
         if (command.PaymentDate is not null)
-            payment.PaymentDate = command.PaymentDate.Value;
+            payment.PaymentDate = command.PaymentDate.Value.ToUniversalTime();
 
         if (command.Completed is not null)
             payment.Completed = command.Completed.Value;

@@ -5,6 +5,7 @@ using Payments.Application.Commands.v1.DeletePayment;
 using Payments.Application.Commands.v1.UpdatePayment;
 using Payments.Application.Queries.v1.GetPaymentById;
 using Payments.Application.Queries.v1.GetPayments;
+using Payments.Application.Queries.v1.GetPaymentsSummary;
 
 namespace Payments.Api.Controllers.v1;
 
@@ -53,5 +54,12 @@ public class PaymentsController(CqrsDispatcher dispatcher) : ControllerBase
         var command = new DeletePaymentCommand(paymentId);
         var result = await _dispatcher.SendAsync<DeletePaymentCommand, DeletePaymentCommandResponse>(command, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpGet("summary")]
+    public async Task<IActionResult> GetPaymentsSummaryAsync([FromQuery] GetPaymentsSummaryQuery query, CancellationToken cancellationToken)
+    {
+        var summary = await _dispatcher.QueryAsync<GetPaymentsSummaryQuery, GetPaymentsSummaryQueryResponse>(query, cancellationToken);
+        return Ok(summary);
     }
 }
