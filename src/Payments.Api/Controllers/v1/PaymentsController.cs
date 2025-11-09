@@ -22,6 +22,13 @@ public class PaymentsController(CqrsDispatcher dispatcher) : ControllerBase
         return Ok(payments);
     }
 
+    [HttpGet("summary")]
+    public async Task<IActionResult> GetPaymentsSummaryAsync([FromQuery] GetPaymentsSummaryQuery query, CancellationToken cancellationToken)
+    {
+        var summary = await _dispatcher.QueryAsync<GetPaymentsSummaryQuery, GetPaymentsSummaryQueryResponse>(query, cancellationToken);
+        return Ok(summary);
+    }
+
     [HttpGet("{paymentId}")]
     public async Task<IActionResult> GetPaymentByIdAsync([FromRoute] int paymentId, CancellationToken cancellationToken)
     {
@@ -54,12 +61,5 @@ public class PaymentsController(CqrsDispatcher dispatcher) : ControllerBase
         var command = new DeletePaymentCommand(paymentId);
         var result = await _dispatcher.SendAsync<DeletePaymentCommand, DeletePaymentCommandResponse>(command, cancellationToken);
         return Ok(result);
-    }
-
-    [HttpGet("summary")]
-    public async Task<IActionResult> GetPaymentsSummaryAsync([FromQuery] GetPaymentsSummaryQuery query, CancellationToken cancellationToken)
-    {
-        var summary = await _dispatcher.QueryAsync<GetPaymentsSummaryQuery, GetPaymentsSummaryQueryResponse>(query, cancellationToken);
-        return Ok(summary);
     }
 }
