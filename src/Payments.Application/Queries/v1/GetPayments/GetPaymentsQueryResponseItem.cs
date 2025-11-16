@@ -9,5 +9,6 @@ public record GetPaymentsQueryResponseItem(
     bool Completed,
     DateTime CreatedAt,
     int ProfileId,
-    string ProfileName
+    string ProfileName,
+    string? Category
 );

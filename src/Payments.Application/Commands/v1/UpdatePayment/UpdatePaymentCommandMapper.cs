@@ -9,6 +9,7 @@ public static class UpdatePaymentCommandMapper
             Description: request.Description,
             Amount: request.Amount,
             PaymentDate: request.PaymentDate,
-            Completed: request.Completed
+            Completed: request.Completed,
+            Category: request.Category
         );
 }

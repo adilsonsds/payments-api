@@ -7,5 +7,6 @@ public record UpdatePaymentCommandResponse(
     decimal Amount,
     DateTime PaymentDate,
     bool Completed,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    string? Category
 );

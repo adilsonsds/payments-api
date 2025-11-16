@@ -8,5 +8,6 @@ public record GetPaymentByIdQueryResponse(
     decimal Amount,
     bool Completed,
     DateTime CreatedAt,
+    string? Category,
     (int Id, string Name) Profile
 );

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Payments.Infra;
 
 namespace Payments.Application.Commands.v1.UpdatePayment;
@@ -26,6 +27,21 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
         if (command.Completed is not null)
             payment.Completed = command.Completed.Value;
 
+        if (!string.IsNullOrEmpty(command.Category))
+        {
+            var plannedBalance = await _dbContext.PlannedBalances
+                .FirstOrDefaultAsync(pb =>
+                    pb.Profile.Id == payment.Profile.Id &&
+                    pb.Year == payment.PaymentDate.Year &&
+                    pb.Month == payment.PaymentDate.Month &&
+                    pb.Category == command.Category, cancellationToken);
+
+            if (plannedBalance != null)
+            {
+                payment.PlannedBalance = plannedBalance;
+            }
+        }
+
         _dbContext.Payments.Update(payment);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -36,7 +52,8 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
             payment.Amount,
             payment.PaymentDate,
             payment.Completed,
-            payment.CreatedAt
+            payment.CreatedAt,
+            payment.PlannedBalance?.Category
         );
     }
 }

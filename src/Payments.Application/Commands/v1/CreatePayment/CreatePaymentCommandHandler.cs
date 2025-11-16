@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Payments.Domain;
 using Payments.Infra;
 
@@ -23,6 +24,21 @@ public class CreatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
             CreatedAt = DateTime.UtcNow
         };
 
+        if (!string.IsNullOrEmpty(command.Category))
+        {
+            var plannedBalance = await _dbContext.PlannedBalances
+                .FirstOrDefaultAsync(pb =>
+                    pb.Profile.Id == payment.Profile.Id &&
+                    pb.Year == payment.PaymentDate.Year &&
+                    pb.Month == payment.PaymentDate.Month &&
+                    pb.Category == command.Category, cancellationToken);
+
+            if (plannedBalance != null)
+            {
+                payment.PlannedBalance = plannedBalance;
+            }
+        }
+
         _dbContext.Payments.Add(payment);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -33,7 +49,8 @@ public class CreatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
             payment.Amount,
             payment.PaymentDate,
             payment.Completed,
-            payment.CreatedAt
+            payment.CreatedAt,
+            payment.PlannedBalance?.Category
         );
     }
 }

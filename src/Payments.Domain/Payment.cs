@@ -10,4 +10,5 @@ public class Payment
     public required bool Completed { get; set; }
     public required Profile Profile { get; set; }
     public required DateTime CreatedAt { get; set; }
+    public PlannedBalance? PlannedBalance { get; set; }
 }

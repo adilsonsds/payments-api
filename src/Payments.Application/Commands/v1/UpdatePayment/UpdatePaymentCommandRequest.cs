@@ -5,5 +5,6 @@ public record UpdatePaymentCommandRequest(
     string? Description,
     decimal? Amount,
     DateTime? PaymentDate,
-    bool? Completed
+    bool? Completed,
+    string? Category
 );
