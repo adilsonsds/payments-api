@@ -12,6 +12,7 @@ using Payments.Application.Commands.v1.DeleteProfile;
 using Payments.Application.Queries.v1.GetProfileById;
 using Payments.Application.Queries.v1.GetPaymentsSummary;
 using Payments.Application.Queries.v1.GetBackup;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,22 @@ builder.Services.AddDbContext<PaymentsDbContext>(options =>
 );
 
 builder.Services.AddControllers();
-// builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
+    {
+        document.Info = new()
+        {
+            Title = "Payments API",
+            Version = "v1",
+            Description = "API for managing payments, profiles, planned balances and backups"
+        };
+        return Task.CompletedTask;
+    });
+});
+
+// Configuração para incluir comentários XML na documentação
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IQueryHandler<GetBackupQuery, GetBackupQueryResponse>, GetBackupQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetProfilesQuery, GetProfilesQueryResponse>, GetProfilesQueryHandler>();
@@ -40,8 +56,9 @@ builder.Services.AddScoped<CqrsDispatcher>();
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Payments API is running!");
+app.MapOpenApi();
 
+app.MapGet("/", () => "Payments API is running!");
 
 app.MapControllers();
 app.Run();
