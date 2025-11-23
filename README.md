@@ -15,10 +15,6 @@ src/
 ├── Infrastructure/ (Específico)
 │   └── Payments.Infra/          # Acesso a dados (EF Core, Npgsql)
 │
-├── Shared/ (Técnico/Reutilizável)
-│   ├── Shared.Abstractions/     # Interfaces e contratos
-│   └── Shared.Integrations.Google/  # Integrações com Google Drive
-│
 └── Presentation/
     └── Payments.Api/            # API REST e controladores
 ```
@@ -27,7 +23,6 @@ src/
 
 - **Core**: Contém a lógica de negócio pura e independente de tecnologia
 - **Infrastructure**: Implementações específicas de persistência e acesso a dados
-- **Shared**: Componentes reutilizáveis e abstrações técnicas
 - **Presentation**: Interface de usuário e pontos de entrada da aplicação
 
 ## Arquitetura
@@ -37,8 +32,6 @@ src/
 - **Entity Framework Core**: Utilizado para persistência de dados, configurado em [`PaymentsDbContext`](Payments.Infra/PaymentsDbContext.cs).
 - **Injeção de Dependências**: Utilizada para desacoplamento entre camadas, configurada em [`Program.cs`](Payments.Api/Program.cs).
 - **API REST**: Controladores em [`Controllers/v1`](Payments.Api/Controllers/v1/) expõem endpoints HTTP versionados.
-- **Abstrações Compartilhadas**: Interfaces e contratos compartilhados em [`Shared.Abstractions`](Shared.Abstractions/).
-- **Integrações Externas**: Implementações de serviços externos como Google Drive em [`Shared.Integrations.Google`](Shared.Integrations.Google/).
 
 ### Funcionalidades
 

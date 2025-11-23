@@ -7,8 +7,6 @@ COPY ["src/Payments.Api/Payments.Api.csproj", "Payments.Api/"]
 COPY ["src/Payments.Application/Payments.Application.csproj", "Payments.Application/"]
 COPY ["src/Payments.Domain/Payments.Domain.csproj", "Payments.Domain/"]
 COPY ["src/Payments.Infra/Payments.Infra.csproj", "Payments.Infra/"]
-COPY ["src/Shared.Abstractions/Shared.Abstractions.csproj", "Shared.Abstractions/"]
-COPY ["src/Shared.Integrations.Google/Shared.Integrations.Google.csproj", "Shared.Integrations.Google/"]
 
 # Restore dependencies
 RUN dotnet restore "Payments.sln"

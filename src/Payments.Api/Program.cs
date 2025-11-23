@@ -10,10 +10,8 @@ using Payments.Application.Queries.v1.GetPaymentById;
 using Payments.Application.Commands.v1.DeletePayment;
 using Payments.Application.Commands.v1.DeleteProfile;
 using Payments.Application.Queries.v1.GetProfileById;
-using Payments.Application.Commands.v1.CreateBackup;
-using Shared.Abstractions;
-using Shared.Integrations.Google;
 using Payments.Application.Queries.v1.GetPaymentsSummary;
+using Payments.Application.Queries.v1.GetBackup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +24,7 @@ builder.Services.AddDbContext<PaymentsDbContext>(options =>
 builder.Services.AddControllers();
 // builder.Services.AddOpenApi();
 
+builder.Services.AddScoped<IQueryHandler<GetBackupQuery, GetBackupQueryResponse>, GetBackupQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetProfilesQuery, GetProfilesQueryResponse>, GetProfilesQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetPaymentsQuery, GetPaymentsQueryResponse>, GetPaymentsQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetPaymentsSummaryQuery, GetPaymentsSummaryQueryResponse>, GetPaymentsSummaryQueryHandler>();
@@ -36,10 +35,8 @@ builder.Services.AddScoped<ICommandHandler<CreatePaymentCommand, CreatePaymentCo
 builder.Services.AddScoped<ICommandHandler<UpdatePaymentCommand, UpdatePaymentCommandResponse>, UpdatePaymentCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeletePaymentCommand, DeletePaymentCommandResponse>, DeletePaymentCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeleteProfileCommand, DeleteProfileCommandResponse>, DeleteProfileCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<CreateBackupCommand, CreateBackupCommandResponse>, CreateBackupCommandHandler>();
 
 builder.Services.AddScoped<CqrsDispatcher>();
-builder.Services.AddScoped<IFileStorageBackupService, GoogleDriveService>();
 
 var app = builder.Build();
 

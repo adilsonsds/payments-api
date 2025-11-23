@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Payments.Application;
-using Payments.Application.Commands.v1.CreateBackup;
+using Payments.Application.Queries.v1.GetBackup;
 
 namespace Payments.Api.Controllers.v1;
 
@@ -10,10 +10,11 @@ public class BackupController(CqrsDispatcher dispatcher) : ControllerBase
 {
     private readonly CqrsDispatcher _dispatcher = dispatcher;
     
-    [HttpPost]
-    public async Task<IActionResult> CreateBackupAsync([FromBody] CreateBackupCommand command, CancellationToken cancellationToken)
+    [HttpGet]
+    public async Task<IActionResult> GetBackupAsync(CancellationToken cancellationToken)
     {
-        var response = await _dispatcher.SendAsync<CreateBackupCommand, CreateBackupCommandResponse>(command, cancellationToken);
-        return Ok(response);
+        var query = new GetBackupQuery();
+        var response = await _dispatcher.QueryAsync<GetBackupQuery, GetBackupQueryResponse>(query, cancellationToken);        
+        return File(response.FileContent, response.ContentType, response.FileName);
     }
 }
