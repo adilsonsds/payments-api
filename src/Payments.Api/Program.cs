@@ -13,6 +13,9 @@ using Payments.Application.Queries.v1.GetProfileById;
 using Payments.Application.Queries.v1.GetPaymentsSummary;
 using Payments.Application.Queries.v1.GetBackup;
 using System.Reflection;
+using Payments.Application.Queries.v1.GetCategories;
+using Payments.Application.Queries.v1.GetBalances;
+using Payments.Application.Commands.v1.CreateBalances;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,16 +44,19 @@ builder.Services.AddOpenApi(options =>
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IQueryHandler<GetBackupQuery, GetBackupQueryResponse>, GetBackupQueryHandler>();
-builder.Services.AddScoped<IQueryHandler<GetProfilesQuery, GetProfilesQueryResponse>, GetProfilesQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetBalancesQuery, GetBalancesQueryResponse>, GetBalancesQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetCategoriesQuery, GetCategoriesQueryResponse>, GetCategoriesQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetPaymentByIdQuery, GetPaymentByIdQueryResponse>, GetPaymentByIdQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetPaymentsQuery, GetPaymentsQueryResponse>, GetPaymentsQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetPaymentsSummaryQuery, GetPaymentsSummaryQueryResponse>, GetPaymentsSummaryQueryHandler>();
-builder.Services.AddScoped<IQueryHandler<GetPaymentByIdQuery, GetPaymentByIdQueryResponse>, GetPaymentByIdQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetProfileByIdQuery, GetProfileByIdQueryResponse>, GetProfileByIdQueryHandler>();
-builder.Services.AddScoped<ICommandHandler<CreateProfileCommand, CreateProfileCommandResponse>, CreateProfileCommandHandler>();
+builder.Services.AddScoped<IQueryHandler<GetProfilesQuery, GetProfilesQueryResponse>, GetProfilesQueryHandler>();
+builder.Services.AddScoped<ICommandHandler<CreateBalancesCommand, CreateBalancesCommandResponse>, CreateBalancesCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<CreatePaymentCommand, CreatePaymentCommandResponse>, CreatePaymentCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<UpdatePaymentCommand, UpdatePaymentCommandResponse>, UpdatePaymentCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<CreateProfileCommand, CreateProfileCommandResponse>, CreateProfileCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeletePaymentCommand, DeletePaymentCommandResponse>, DeletePaymentCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeleteProfileCommand, DeleteProfileCommandResponse>, DeleteProfileCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<UpdatePaymentCommand, UpdatePaymentCommandResponse>, UpdatePaymentCommandHandler>();
 
 builder.Services.AddScoped<CqrsDispatcher>();
 

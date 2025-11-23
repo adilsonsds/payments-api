@@ -27,18 +27,14 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
         if (command.Completed is not null)
             payment.Completed = command.Completed.Value;
 
-        if (!string.IsNullOrEmpty(command.Category))
+        if (command.BalanceId is not null)
         {
-            var financialBalance = await _dbContext.FinancialBalances
-                .FirstOrDefaultAsync(pb =>
-                    pb.Profile.Id == payment.Profile.Id &&
-                    pb.Year == payment.PaymentDate.Year &&
-                    pb.Month == payment.PaymentDate.Month &&
-                    pb.Category == command.Category, cancellationToken);
+            var balance = await _dbContext.Balances
+                .FirstOrDefaultAsync(pb => pb.Profile.Id == payment.Profile.Id && pb.Id == command.BalanceId, cancellationToken);
 
-            if (financialBalance != null)
+            if (balance != null)
             {
-                payment.FinancialBalance = financialBalance;
+                payment.Balance = balance;
             }
         }
 
@@ -53,7 +49,7 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
             payment.PaymentDate,
             payment.Completed,
             payment.CreatedAt,
-            payment.FinancialBalance?.Category
+            payment.Balance?.Id
         );
     }
 }

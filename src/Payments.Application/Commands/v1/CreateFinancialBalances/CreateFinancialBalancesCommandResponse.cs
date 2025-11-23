@@ -1,3 +1,0 @@
-namespace Payments.Application.Commands.v1.CreateFinancialBalances;
-
-public record CreateFinancialBalancesCommandResponse(decimal TotalFinancialBalance);

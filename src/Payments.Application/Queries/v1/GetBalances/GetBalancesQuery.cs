@@ -1,6 +1,6 @@
-namespace Payments.Application.Queries.v1.GetFinancialBalances;
+namespace Payments.Application.Queries.v1.GetBalances;
 
-public record GetFinancialBalancesQuery : IQuery<GetFinancialBalancesQueryResponse>
+public record GetBalancesQuery : IQuery<GetBalancesQueryResponse>
 {
     public int ProfileId { get; init; }
     public int StartMonth { get; init; }

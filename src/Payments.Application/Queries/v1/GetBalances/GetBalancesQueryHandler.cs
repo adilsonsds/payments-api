@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Payments.Infra;
 
-namespace Payments.Application.Queries.v1.GetFinancialBalances;
+namespace Payments.Application.Queries.v1.GetBalances;
 
-public class GetFinancialBalancesQueryHandler(PaymentsDbContext paymentsDbContext) 
-    : IQueryHandler<GetFinancialBalancesQuery, GetFinancialBalancesQueryResponse>
+public class GetBalancesQueryHandler(PaymentsDbContext paymentsDbContext) 
+    : IQueryHandler<GetBalancesQuery, GetBalancesQueryResponse>
 {
     private readonly PaymentsDbContext _paymentsDbContext = paymentsDbContext;
 
-    public async Task<GetFinancialBalancesQueryResponse> HandleAsync(GetFinancialBalancesQuery request, CancellationToken cancellationToken)
+    public async Task<GetBalancesQueryResponse> HandleAsync(GetBalancesQuery request, CancellationToken cancellationToken)
     {
-        var financialBalances = await _paymentsDbContext.FinancialBalances
+        var balances = await _paymentsDbContext.Balances
             .AsNoTracking()
             .Where(pb => pb.Profile.Id == request.ProfileId
                    && (pb.Year > request.StartYear || (pb.Year == request.StartYear && pb.Month >= request.StartMonth))
@@ -20,18 +20,18 @@ public class GetFinancialBalancesQueryHandler(PaymentsDbContext paymentsDbContex
             .ThenBy(pb => pb.Month)
             .ToListAsync(cancellationToken);
 
-        var agrupedFinancialBalances = financialBalances
+        var groupedBalances = balances
             .GroupBy(pb => new { pb.Year, pb.Month })
-            .Select(g => new GetFinancialBalancesQueryResponseMonth(
+            .Select(g => new GetBalancesQueryResponseMonth(
                 g.Key.Year,
                 g.Key.Month,
-                [.. g.Select(pb => new GetFinancialBalancesQueryResponseCategory(
-                    pb.Category,
-                    pb.Amount
+                [.. g.Select(pb => new GetBalancesQueryResponseCategory(
+                    pb.Description,
+                    pb.PlannedAmount
                 ))]
             ))
             .ToList();
 
-        return new GetFinancialBalancesQueryResponse(agrupedFinancialBalances);
+        return new GetBalancesQueryResponse(groupedBalances);
     }
 }

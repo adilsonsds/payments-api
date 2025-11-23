@@ -2,16 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using Payments.Domain;
 using Payments.Infra;
 
-namespace Payments.Application.Commands.v1.CreateFinancialBalances;
+namespace Payments.Application.Commands.v1.CreateBalances;
 
-public class CreateFinancialBalancesCommandHandler(PaymentsDbContext paymentsDbContext)
-    : ICommandHandler<CreateFinancialBalancesCommand, CreateFinancialBalancesCommandResponse>
+public class CreateBalancesCommandHandler(PaymentsDbContext paymentsDbContext)
+    : ICommandHandler<CreateBalancesCommand, CreateBalancesCommandResponse>
 {
     private readonly PaymentsDbContext _paymentsDbContext = paymentsDbContext;
 
-    public async Task<CreateFinancialBalancesCommandResponse> HandleAsync(CreateFinancialBalancesCommand request, CancellationToken cancellationToken)
+    public async Task<CreateBalancesCommandResponse> HandleAsync(CreateBalancesCommand request, CancellationToken cancellationToken)
     {
-        await _paymentsDbContext.FinancialBalances
+        await _paymentsDbContext.Balances
             .Where(pb => pb.Profile.Id == request.ProfileId && pb.Year == request.Year && pb.Month == request.Month)
             .ExecuteDeleteAsync(cancellationToken);
 
@@ -23,19 +23,19 @@ public class CreateFinancialBalancesCommandHandler(PaymentsDbContext paymentsDbC
             throw new InvalidOperationException($"Profile with Id {request.ProfileId} not found.");
         }
 
-        var newFinancialBalances = request.Categories
-            .Select(c => new FinancialBalance
+        var newBalances = request.Categories
+            .Select(c => new Balance
             {
                 Profile = profile!,
                 Year = request.Year,
                 Month = request.Month,
-                Category = c.Category,
-                Amount = c.Amount
+                Description = c.Description,
+                PlannedAmount = c.PlannedAmount
             });
 
-        await _paymentsDbContext.FinancialBalances.AddRangeAsync(newFinancialBalances, cancellationToken);
+        await _paymentsDbContext.Balances.AddRangeAsync(newBalances, cancellationToken);
         await _paymentsDbContext.SaveChangesAsync(cancellationToken);
 
-        return new CreateFinancialBalancesCommandResponse(newFinancialBalances.Sum(pb => pb.Amount));
+        return new CreateBalancesCommandResponse(newBalances.Sum(pb => pb.PlannedAmount));
     }
 }

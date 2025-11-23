@@ -8,5 +8,5 @@ public record UpdatePaymentCommandResponse(
     DateTime PaymentDate,
     bool Completed,
     DateTime CreatedAt,
-    string? Category
+    int? BalanceId
 );

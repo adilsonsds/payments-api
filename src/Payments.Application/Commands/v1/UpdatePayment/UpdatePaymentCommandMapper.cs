@@ -10,6 +10,6 @@ public static class UpdatePaymentCommandMapper
             Amount: request.Amount,
             PaymentDate: request.PaymentDate,
             Completed: request.Completed,
-            Category: request.Category
+            BalanceId: request.BalanceId
         );
 }

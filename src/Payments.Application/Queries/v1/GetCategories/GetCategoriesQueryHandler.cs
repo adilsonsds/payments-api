@@ -9,12 +9,12 @@ public class GetCategoriesQueryHandler(PaymentsDbContext dbContext) : IQueryHand
 
     public async Task<GetCategoriesQueryResponse> HandleAsync(GetCategoriesQuery query, CancellationToken cancellationToken)
     {
-        var categories = await _dbContext.FinancialBalances
+        var categories = await _dbContext.Balances
             .Where(pb => 
                 pb.Profile.Id == query.ProfileId && 
                 pb.Year == query.Year && 
                 pb.Month == query.Month)
-            .Select(pb => pb.Category)
+            .Select(pb => pb.Description)
             .Distinct()
             .ToListAsync(cancellationToken);
 

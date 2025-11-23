@@ -7,5 +7,5 @@ public record CreatePaymentCommand(
     decimal Amount,
     DateTime PaymentDate,
     bool Completed,
-    string? Category
+    int? BalanceId
 ) : ICommand<CreatePaymentCommandResponse>;

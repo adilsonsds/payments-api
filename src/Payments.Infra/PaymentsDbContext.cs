@@ -7,7 +7,7 @@ public class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : Db
 {
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Profile> Profiles { get; set; }
-    public DbSet<FinancialBalance> FinancialBalances { get; set; }
+    public DbSet<Balance> Balances { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,7 +25,7 @@ public class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : Db
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             entity.HasOne(e => e.Profile).WithMany().HasForeignKey("ProfileId").IsRequired();
-            entity.HasOne(e => e.FinancialBalance).WithMany().HasForeignKey("FinancialBalanceId").IsRequired(false);
+            entity.HasOne(e => e.Balance).WithMany().HasForeignKey("BalanceId").IsRequired(false);
 
             entity.Navigation(e => e.Profile).AutoInclude();
         });
@@ -36,13 +36,13 @@ public class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : Db
             entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
         });
 
-        modelBuilder.Entity<FinancialBalance>(entity =>
+        modelBuilder.Entity<Balance>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Year).IsRequired();
             entity.Property(e => e.Month).IsRequired();
-            entity.Property(e => e.Amount).IsRequired();
-            entity.Property(e => e.Category).IsRequired().HasMaxLength(255);
+            entity.Property(e => e.PlannedAmount).IsRequired();
+            entity.Property(e => e.Description).IsRequired().HasMaxLength(255);
             entity.HasOne(e => e.Profile).WithMany().HasForeignKey("ProfileId").IsRequired();
 
             entity.Navigation(e => e.Profile).AutoInclude();
