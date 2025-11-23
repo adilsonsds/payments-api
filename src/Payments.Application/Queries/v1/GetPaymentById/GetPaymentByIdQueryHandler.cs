@@ -12,7 +12,7 @@ public class GetPaymentByIdQueryHandler(PaymentsDbContext dbContext) : IQueryHan
         var payment = await _dbContext.Payments
             .AsNoTracking()
             .Include(p => p.Profile)
-            .Include(p => p.PlannedBalance)
+            .Include(p => p.FinancialBalance)
             .FirstOrDefaultAsync(p => p.Id == query.PaymentId, cancellationToken)
             ?? throw new KeyNotFoundException($"Payment with ID {query.PaymentId} not found.");
 
@@ -24,7 +24,7 @@ public class GetPaymentByIdQueryHandler(PaymentsDbContext dbContext) : IQueryHan
             payment.Amount,
             payment.Completed,
             payment.CreatedAt,
-            payment.PlannedBalance?.Category,
+            payment.FinancialBalance?.Category,
             Profile: (payment.Profile.Id, payment.Profile.Name));
     }
 }

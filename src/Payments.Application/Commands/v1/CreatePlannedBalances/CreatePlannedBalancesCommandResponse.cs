@@ -1,3 +1,0 @@
-namespace Payments.Application.Commands.v1.CreatePlannedBalances;
-
-public record CreatePlannedBalancesCommandResponse(decimal TotalPlannedBalance);

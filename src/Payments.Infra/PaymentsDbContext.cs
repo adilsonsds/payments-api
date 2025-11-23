@@ -7,7 +7,7 @@ public class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : Db
 {
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Profile> Profiles { get; set; }
-    public DbSet<PlannedBalance> PlannedBalances { get; set; }
+    public DbSet<FinancialBalance> FinancialBalances { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,7 +25,7 @@ public class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : Db
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
             entity.HasOne(e => e.Profile).WithMany().HasForeignKey("ProfileId").IsRequired();
-            entity.HasOne(e => e.PlannedBalance).WithMany().HasForeignKey("PlannedBalanceId").IsRequired(false);
+            entity.HasOne(e => e.FinancialBalance).WithMany().HasForeignKey("FinancialBalanceId").IsRequired(false);
 
             entity.Navigation(e => e.Profile).AutoInclude();
         });
@@ -36,7 +36,7 @@ public class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : Db
             entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
         });
 
-        modelBuilder.Entity<PlannedBalance>(entity =>
+        modelBuilder.Entity<FinancialBalance>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Year).IsRequired();

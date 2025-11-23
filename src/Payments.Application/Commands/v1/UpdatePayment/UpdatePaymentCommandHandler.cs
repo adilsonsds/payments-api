@@ -29,16 +29,16 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
 
         if (!string.IsNullOrEmpty(command.Category))
         {
-            var plannedBalance = await _dbContext.PlannedBalances
+            var financialBalance = await _dbContext.FinancialBalances
                 .FirstOrDefaultAsync(pb =>
                     pb.Profile.Id == payment.Profile.Id &&
                     pb.Year == payment.PaymentDate.Year &&
                     pb.Month == payment.PaymentDate.Month &&
                     pb.Category == command.Category, cancellationToken);
 
-            if (plannedBalance != null)
+            if (financialBalance != null)
             {
-                payment.PlannedBalance = plannedBalance;
+                payment.FinancialBalance = financialBalance;
             }
         }
 
@@ -53,7 +53,7 @@ public class UpdatePaymentCommandHandler(PaymentsDbContext dbContext) : ICommand
             payment.PaymentDate,
             payment.Completed,
             payment.CreatedAt,
-            payment.PlannedBalance?.Category
+            payment.FinancialBalance?.Category
         );
     }
 }

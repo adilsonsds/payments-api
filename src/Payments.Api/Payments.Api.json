@@ -54,6 +54,149 @@
         }
       }
     },
+    "/api/v1/FinancialBalances": {
+      "get": {
+        "tags": [
+          "FinancialBalances"
+        ],
+        "parameters": [
+          {
+            "name": "ProfileId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartMonth",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartYear",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "EndMonth",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "EndYear",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFinancialBalancesQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FinancialBalances"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFinancialBalancesCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFinancialBalancesCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFinancialBalancesCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateFinancialBalancesCommandResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/FinancialBalances/categories": {
+      "get": {
+        "tags": [
+          "FinancialBalances"
+        ],
+        "parameters": [
+          {
+            "name": "ProfileId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Year",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Month",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategoriesQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Payments": {
       "get": {
         "tags": [
@@ -342,149 +485,6 @@
         }
       }
     },
-    "/api/v1/PlannedBalances": {
-      "get": {
-        "tags": [
-          "PlannedBalances"
-        ],
-        "parameters": [
-          {
-            "name": "ProfileId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "StartMonth",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "StartYear",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "EndMonth",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "EndYear",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPlannedBalancesQueryResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "PlannedBalances"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePlannedBalancesCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePlannedBalancesCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePlannedBalancesCommand"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreatePlannedBalancesCommandResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/PlannedBalances/categories": {
-      "get": {
-        "tags": [
-          "PlannedBalances"
-        ],
-        "parameters": [
-          {
-            "name": "ProfileId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Year",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Month",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetCategoriesQueryResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/Profiles": {
       "get": {
         "tags": [
@@ -621,6 +621,57 @@
   },
   "components": {
     "schemas": {
+      "CreateFinancialBalancesCommand": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateFinancialBalancesCommandCategory"
+            }
+          }
+        }
+      },
+      "CreateFinancialBalancesCommandCategory": {
+        "required": [
+          "category",
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "CreateFinancialBalancesCommandResponse": {
+        "required": [
+          "totalFinancialBalance"
+        ],
+        "type": "object",
+        "properties": {
+          "totalFinancialBalance": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "CreatePaymentCommand": {
         "required": [
           "profileId",
@@ -703,57 +754,6 @@
           "category": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "CreatePlannedBalancesCommand": {
-        "type": "object",
-        "properties": {
-          "profileId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "year": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "month": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreatePlannedBalancesCommandCategory"
-            }
-          }
-        }
-      },
-      "CreatePlannedBalancesCommandCategory": {
-        "required": [
-          "category",
-          "amount"
-        ],
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "CreatePlannedBalancesCommandResponse": {
-        "required": [
-          "totalPlannedBalance"
-        ],
-        "type": "object",
-        "properties": {
-          "totalPlannedBalance": {
-            "type": "number",
-            "format": "double"
           }
         }
       },
@@ -886,6 +886,60 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          }
+        }
+      },
+      "GetFinancialBalancesQueryResponse": {
+        "required": [
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetFinancialBalancesQueryResponseMonth"
+            }
+          }
+        }
+      },
+      "GetFinancialBalancesQueryResponseCategory": {
+        "required": [
+          "category",
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "GetFinancialBalancesQueryResponseMonth": {
+        "required": [
+          "year",
+          "month",
+          "categories"
+        ],
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetFinancialBalancesQueryResponseCategory"
             }
           }
         }
@@ -1064,60 +1118,6 @@
           "totalAmountOutConfirmed": {
             "type": "number",
             "format": "double"
-          }
-        }
-      },
-      "GetPlannedBalancesQueryResponse": {
-        "required": [
-          "items"
-        ],
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetPlannedBalancesQueryResponseMonth"
-            }
-          }
-        }
-      },
-      "GetPlannedBalancesQueryResponseCategory": {
-        "required": [
-          "category",
-          "amount"
-        ],
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "GetPlannedBalancesQueryResponseMonth": {
-        "required": [
-          "year",
-          "month",
-          "categories"
-        ],
-        "type": "object",
-        "properties": {
-          "year": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "month": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetPlannedBalancesQueryResponseCategory"
-            }
           }
         }
       },
@@ -1314,10 +1314,10 @@
       "name": "Backup"
     },
     {
-      "name": "Payments"
+      "name": "FinancialBalances"
     },
     {
-      "name": "PlannedBalances"
+      "name": "Payments"
     },
     {
       "name": "Profiles"

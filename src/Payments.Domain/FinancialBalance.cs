@@ -1,6 +1,6 @@
 namespace Payments.Domain;
 
-public class PlannedBalance
+public class FinancialBalance
 {
     public int Id { get; set; }
     public required Profile Profile { get; set; }

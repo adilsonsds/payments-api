@@ -52,7 +52,7 @@ public class GetPaymentsQueryHandler(PaymentsDbContext dbContext) : IQueryHandle
                 p.CreatedAt,
                 p.Profile.Id,
                 p.Profile.Name,
-                p.PlannedBalance != null ? p.PlannedBalance.Category : null
+                p.FinancialBalance != null ? p.FinancialBalance.Category : null
             ))
             .ToListAsync(cancellationToken);
 

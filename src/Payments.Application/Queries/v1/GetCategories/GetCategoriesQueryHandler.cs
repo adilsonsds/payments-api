@@ -9,7 +9,7 @@ public class GetCategoriesQueryHandler(PaymentsDbContext dbContext) : IQueryHand
 
     public async Task<GetCategoriesQueryResponse> HandleAsync(GetCategoriesQuery query, CancellationToken cancellationToken)
     {
-        var categories = await _dbContext.PlannedBalances
+        var categories = await _dbContext.FinancialBalances
             .Where(pb => 
                 pb.Profile.Id == query.ProfileId && 
                 pb.Year == query.Year && 
