@@ -10,4 +10,5 @@ public record CreateBalancesCommand : ICommand<CreateBalancesCommandResponse>
 
 public record CreateBalancesCommandCategory(
     string Description,
-    decimal PlannedAmount);
+    decimal PlannedAmount,
+    bool IsInbound);

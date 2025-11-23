@@ -27,7 +27,8 @@ public class GetBalancesQueryHandler(PaymentsDbContext paymentsDbContext)
                 g.Key.Month,
                 [.. g.Select(pb => new GetBalancesQueryResponseCategory(
                     pb.Description,
-                    pb.PlannedAmount
+                    pb.PlannedAmount,
+                    pb.IsInbound
                 ))]
             ))
             .ToList();

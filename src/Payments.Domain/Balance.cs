@@ -8,4 +8,5 @@ public class Balance
     public required int Month { get; set; }
     public required decimal PlannedAmount { get; set; }
     public required string Description { get; set; }
+    public required bool IsInbound { get; set; }
 }

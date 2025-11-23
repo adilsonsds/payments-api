@@ -30,7 +30,8 @@ public class CreateBalancesCommandHandler(PaymentsDbContext paymentsDbContext)
                 Year = request.Year,
                 Month = request.Month,
                 Description = c.Description,
-                PlannedAmount = c.PlannedAmount
+                PlannedAmount = c.PlannedAmount,
+                IsInbound = c.IsInbound
             });
 
         await _paymentsDbContext.Balances.AddRangeAsync(newBalances, cancellationToken);

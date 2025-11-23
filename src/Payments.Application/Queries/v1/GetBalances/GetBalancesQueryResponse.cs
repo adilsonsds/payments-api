@@ -9,4 +9,4 @@ public record GetBalancesQueryResponseMonth(
     int Month,
     List<GetBalancesQueryResponseCategory> Categories);
 
-public record GetBalancesQueryResponseCategory(string Description, decimal PlannedAmount);
+public record GetBalancesQueryResponseCategory(string Description, decimal PlannedAmount, bool IsInbound);

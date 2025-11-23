@@ -647,7 +647,8 @@
       "CreateBalancesCommandCategory": {
         "required": [
           "description",
-          "plannedAmount"
+          "plannedAmount",
+          "isInbound"
         ],
         "type": "object",
         "properties": {
@@ -657,6 +658,9 @@
           "plannedAmount": {
             "type": "number",
             "format": "double"
+          },
+          "isInbound": {
+            "type": "boolean"
           }
         }
       },
@@ -895,7 +899,8 @@
       "GetBalancesQueryResponseCategory": {
         "required": [
           "description",
-          "plannedAmount"
+          "plannedAmount",
+          "isInbound"
         ],
         "type": "object",
         "properties": {
@@ -905,6 +910,9 @@
           "plannedAmount": {
             "type": "number",
             "format": "double"
+          },
+          "isInbound": {
+            "type": "boolean"
           }
         }
       },
